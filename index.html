@@ -64,6 +64,18 @@ footer span{color:var(--rose)}
 @keyframes heartbeat{50%{transform:scale(1.15)}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes rise{to{transform:translateY(-110svh) rotate(28deg);opacity:0}}
 @media(max-width:600px){.topline{padding:18px 20px}.section{padding:70px 17px}.gallery{gap:10px}.memory:nth-child(1){grid-column:1/8;min-height:290px}.memory:nth-child(2){grid-column:8/13;min-height:245px;margin-top:48px}.memory:nth-child(3){grid-column:1/7;min-height:260px;margin-top:-12px}.memory:nth-child(4){grid-column:7/13;min-height:300px;margin-top:24px}.memory-copy{left:12px;right:10px;bottom:13px}.memory-copy h3{font-size:20px}.memory-copy p{font-size:10px}.memory-copy span{font-size:8px;letter-spacing:2px}h1{letter-spacing:-2px}.hero-copy{font-size:12px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+
+/* Floating Tum Se Hi music control */
+.music-dock{position:fixed;right:18px;bottom:22px;z-index:30;display:flex;flex-direction:column;align-items:flex-end;gap:10px;font-family:system-ui,sans-serif}
+.music-toggle{width:56px;height:56px;border-radius:50%;padding:0;display:grid;place-items:center;background:#ffb7cf;color:#24101c;border:1px solid #ffffff66;box-shadow:0 8px 28px #0008;font:24px system-ui,sans-serif;letter-spacing:0}
+.music-panel{display:none;width:min(290px,calc(100vw - 36px));padding:10px;background:#211523;border:1px solid #ffb7cf66;border-radius:14px;box-shadow:0 12px 34px #0009}
+.music-panel.open{display:block}
+.music-title{font:12px/1.5 system-ui,sans-serif;color:#fff4ed;margin:0 0 8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.music-title small{color:#ffb7cf;font-size:10px}
+.music-frame{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#100a14}
+.music-hint{font:10px/1.5 system-ui,sans-serif;color:#c7b4c1;margin:8px 2px 0}
+@media(max-width:600px){.music-dock{right:14px;bottom:18px}.music-toggle{width:52px;height:52px}}
+
 </style>
 </head>
 <body>
@@ -118,9 +130,33 @@ footer span{color:var(--rose)}
   <div class="secret-message">If I could choose a thousand times, I'd still look for you. In every lifetime, in every version of this world — <em style="color:#ffb7cf">I'd choose us.</em> ❤️<br><small style="font:11px system-ui,sans-serif;letter-spacing:2px">YASH × HITU · ALWAYS</small></div>
  </details>
 </section>
+
+<div class="music-dock" aria-label="Tum Se Hi music player">
+  <div class="music-panel" id="music-panel" aria-live="polite">
+    <p class="music-title"><span>♪ Tum Se Hi</span><small>Yash ♡ Hitu</small></p>
+    <iframe id="music-frame" class="music-frame"
+      src="https://www.youtube.com/embed/mt9xg0mmt28?enablejsapi=1&playsinline=1&controls=1&rel=0"
+      title="Tum Se Hi — Jab We Met, T-Series"
+      allow="autoplay; encrypted-media; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <p class="music-hint">Tap Play in the player to start the song. Keep this mini-player open while you explore our memories. ❤️</p>
+  </div>
+  <button type="button" class="music-toggle" id="music-toggle" aria-label="Open Tum Se Hi music player" aria-expanded="false" title="Tum Se Hi">♫</button>
+</div>
+
 <footer>MADE WITH ALL MY HEART <span>♥</span> JUST FOR HITU</footer>
 <div id="lightbox" onclick="closeMemory()"><button id="close" aria-label="Close photo" onclick="closeMemory()">×</button><img id="lightbox-img" alt="Selected memory"></div>
 <script>
+
+const musicToggle=document.getElementById('music-toggle');
+const musicPanel=document.getElementById('music-panel');
+musicToggle.addEventListener('click',function(){
+  const isOpen=musicPanel.classList.toggle('open');
+  this.setAttribute('aria-expanded',String(isOpen));
+  this.setAttribute('aria-label',isOpen?'Close Tum Se Hi music player':'Open Tum Se Hi music player');
+  this.textContent=isOpen?'×':'♫';
+});
+
 function openMemory(card){const img=card.querySelector('img');document.getElementById('lightbox-img').src=img.src;document.getElementById('lightbox').classList.add('show')}
 function closeMemory(){document.getElementById('lightbox').classList.remove('show')}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMemory()});
@@ -128,4 +164,38 @@ function floatHeart(){const e=document.createElement('span');e.className='spark'
 document.querySelector('.secret-note').addEventListener('toggle',function(){if(this.open){for(let i=0;i<24;i++)setTimeout(floatHeart,i*55)}});
 setInterval(()=>{if(Math.random()>.48)floatHeart()},1600);
 </script>
+
+<style>
+/* Floating Tum Se Hi music control */
+#loveMusicButton{position:fixed;right:16px;bottom:20px;z-index:1000;width:54px;height:54px;border:1px solid #ffc3d7;background:#35152e;color:#fff4ed;border-radius:50%;font-size:23px;letter-spacing:0;box-shadow:0 5px 24px #0008;display:grid;place-items:center;padding:0;text-transform:none}
+#loveMusicPanel{display:none;position:fixed;right:14px;bottom:84px;z-index:999;width:min(340px,calc(100vw - 28px));padding:10px;background:#1b101f;border:1px solid #ffb7cf88;border-radius:14px;box-shadow:0 8px 35px #000a}
+#loveMusicPanel.open{display:block}
+#loveMusicPanel .music-heading{font:12px/1.5 system-ui,sans-serif;color:#ffd6e2;margin:0 0 8px;letter-spacing:.5px;text-align:left}
+#loveMusicPanel iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px}
+#loveMusicPanel .music-hint{font:11px/1.5 system-ui,sans-serif;color:#e1ccd7;margin:8px 0 0;text-align:left}
+@media(max-width:600px){#loveMusicButton{right:14px;bottom:16px}}
+</style>
+<div id="loveMusicPanel" aria-hidden="true">
+  <p class="music-heading">♫ Tum Se Hi — for Yash &amp; Hitu ❤️</p>
+  <iframe id="loveMusicFrame" title="Tum Se Hi song player" data-src="https://www.youtube-nocookie.com/embed/mt9xg0mmt28?playsinline=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <p class="music-hint">Tap ▶ inside the player to start the song. Internet required.</p>
+</div>
+<button id="loveMusicButton" type="button" aria-label="Open music player" aria-expanded="false">♫</button>
+<script>
+(function(){
+  var btn=document.getElementById('loveMusicButton');
+  var panel=document.getElementById('loveMusicPanel');
+  var frame=document.getElementById('loveMusicFrame');
+  if(!btn||!panel||!frame)return;
+  btn.addEventListener('click',function(){
+    var open=panel.classList.toggle('open');
+    panel.setAttribute('aria-hidden',String(!open));
+    btn.setAttribute('aria-expanded',String(open));
+    btn.textContent=open?'×':'♫';
+    if(open&&!frame.src)frame.src=frame.getAttribute('data-src');
+    if(open&&!frame.getAttribute('src'))frame.setAttribute('src',frame.getAttribute('data-src'));
+  });
+})();
+</script>
+
 </body></html>
